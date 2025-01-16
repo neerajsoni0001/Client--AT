@@ -4,7 +4,7 @@ from config import *
 from db import *
 
 # Create a Telethon client
-client = TelegramClient("Client", api_id=19039081, api_hash="99a625135a721998787c2230acdd587b")
+client = TelegramClient("Client_PROD", api_id=19039081, api_hash="99a625135a721998787c2230acdd587b")
 async def main():
     SOURCE_CHANNEL = get_all_sources()[0]
     DESTINATION_CHANNEL = get_all_destinations()
