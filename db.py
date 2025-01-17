@@ -1,10 +1,10 @@
-
 from pymongo import MongoClient
 from bson import ObjectId
 
 client = MongoClient("mongodb+srv://anuragd275:rJ10QcHOdkjW44F5@mbcluster.ytii2.mongodb.net/?retryWrites=true&w=majority&appName=MBCluster")
 mydatabase = client['mydatabase']
 collection = mydatabase['collection']
+
 
 def get_all_sources():
     try:
@@ -158,7 +158,7 @@ def update_status(new_status):
         if result.modified_count > 0:
             return f"Successfully updated status to '{new_status}'"
         else:
-            return f"No changes made. Either the document doesn't exist or the status is already '{new_status}'."
+            return f"No changes made. The status is already '{new_status}'."
     except Exception as e:
         return f"Error Occurred: {e}"
 
@@ -173,7 +173,7 @@ def image_status(new_status):
         if result.modified_count > 0:
             return f"Successfully updated photo status to '{new_status}'"
         else:
-            return f"No changes made. Either the document doesn't exist or the status is already '{new_status}'."
+            return f"No changes made. The status is already '{new_status}'."
     except Exception as e:
         return f"Error Occurred: {e}"
     
@@ -209,16 +209,7 @@ def get_output_usernames():
     
 
 def add_input_username(new_username):
-    """
-    Adds a new source to the 'sources' array of a document.
-
-    Args:
-        document_id: The ID of the document to update.
-        new_source: The source to add to the 'sources' array.
-
-    Returns:
-        str: Success message or error message.
-    """
+   
     try:
         # Add the new source to the 'sources' array using $addToSet (avoids duplicates)
         result = collection.update_one(
@@ -234,16 +225,7 @@ def add_input_username(new_username):
         return f"Error Occurred: {e}"
 
 def remove_input_username(username_to_remove):
-    """
-    Removes a source from the 'sources' array of a document.
-
-    Args:
-        document_id: The ID of the document to update.
-        source_to_remove: The source to remove from the 'sources' array.
-
-    Returns:
-        str: Success message or error message.
-    """
+    
     try:
         # Remove the source from the 'sources' array using $pull
         result = collection.update_one(
@@ -260,16 +242,7 @@ def remove_input_username(username_to_remove):
     
 
 def add_output_username(new_username):
-    """
-    Adds a new source to the 'sources' array of a document.
-
-    Args:
-        document_id: The ID of the document to update.
-        new_source: The source to add to the 'sources' array.
-
-    Returns:
-        str: Success message or error message.
-    """
+   
     try:
         # Add the new source to the 'sources' array using $addToSet (avoids duplicates)
         result = collection.update_one(
@@ -285,16 +258,7 @@ def add_output_username(new_username):
         return f"Error Occurred: {e}"
 
 def remove_output_username(username_to_remove):
-    """
-    Removes a source from the 'sources' array of a document.
-
-    Args:
-        document_id: The ID of the document to update.
-        source_to_remove: The source to remove from the 'sources' array.
-
-    Returns:
-        str: Success message or error message.
-    """
+    
     try:
         # Remove the source from the 'sources' array using $pull
         result = collection.update_one(
@@ -437,6 +401,20 @@ def get_output_username():
 
         if result:
             return result.get("output_username")  # Use .get() on the document (dictionary)
+        else:
+            return "No document found with the specified Username."
+    except Exception as e:
+        return f"Error Occurred: {e}"
+
+
+def get_current_status():
+    try:
+        result = collection.find_one({
+            "_id": ObjectId("6783cc43d9fed44719153b4d")
+        })
+
+        if result:
+            return result.get("status")
         else:
             return "No document found with the specified ID."
     except Exception as e:
